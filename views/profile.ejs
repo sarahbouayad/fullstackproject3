@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Profile</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/43daf91e79.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="nav-header">
+        <a class="navbar-brand">Profile Page</a>
+      </div>
+        <div class="navbar-header" style="float: right">
+          <a href="/logout" class="btn btn-primary my-2 my-sm-0">Logout</a>
+        </div>
+    </nav>
+
+    <div class="row">
+
+      <!-- LOCAL INFORMATION, class hidden -->
+      <div class="col-sm-12">
+        <div class="well">
+          <h3><span class="fa fa-user"></span> Local</h3>
+
+          <% if (user.local.email) { %>
+            <p>
+              <strong>id</strong>: <%= user._id %><br>
+                <strong>email</strong>: <%= user.local.email %><br>
+                  <strong>password</strong>: <%= user.local.password %>
+            </p>
+
+            <a href="/unlink/local" class="btn btn-default">Unlink</a>
+            <% } else { %>
+              <a href="/connect/local" class="btn btn-default">Connect Local</a>
+              <% } %>
+
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+          <div class="p-5 text-center bg-image" style="background-image: url('img/jobart.jpg'); height: 350px;">
+            <h3>Jobs</h3>
+          </div>
+        <% if (user.local.email) { %>
+          <form class=”form-inline” class="" action="/messages" method="POST" role="form">
+            <div class="form-group">
+              <div class="input-group mb-3">
+                <span class="input-group-addon">@</span>
+                <input type="text" value="<%= user.local.email %>" name="name" class="form-control"
+                  aria-describedby="basic-addon1" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input type="text" class="form-control" placeholder="Job Listing" value="" name="jobListing" required>
+              </div>
+              <div class="form-group col-md-6">
+                <input type="text" class="form-control" placeholder="Connect's Name" name="connect" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Message" name="msg" required>
+              </div>
+              <div class="form-group">
+                <select name="dropDown" class="form-control" aria-label="Default select example" placeholder="Location">
+                  <option selected>Location</option>
+                  <option value="dropDown_newYork" name="New York">New York</option>
+                  <option value="dropDown_philadelphia" name="dropDown_philadelphia">Philadelphia</option>
+                  <option value="dropDown_boston" name="dropDown_boston">Boston</option>
+                  <option value="dropDown_pittsburgh" name="dropDown_pittsburgh">Pittsburgh</option>
+                </select>
+
+
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+
+            </div>
+          </form>
+    
+
+          <!-- container for new york category -->
+          <div>
+            <h4>New York</h4>
+            <ul class="newYorkCollection  .list-group-flush">
+              <% for(var i=0; i <list.length; i++) {%>
+                <% if(list[i].dropDown==="dropDown_newYork" ) { %>
+                  <li class="listofNewYorkJobs list-group-item">
+                    <span class="list-group-item">
+                      <%= list[i].name %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].jobListing %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].connect %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].msg %>
+                    </span>
+                    <% if(list[i].checkBox===true) { %>
+                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
+                          aria-hidden="true"></i></span>
+                      <% } else { %>
+                        <span class="list-group-item"><i class="fa-regular fa-square check-regular"
+                            data-checkbox="false" aria-hidden="true"></i></span>
+                        <% } %>
+
+                          <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                  </li>
+                  <% } %>
+
+                    <% } %>
+            </ul>
+          </div>
+
+          <!-- container for boston category -->
+
+          <div class="collectionContainer">
+            <h4>Boston</h4>
+            <ul class="bostonCollection .list-group-flush">
+              <% for(var i=0; i <list.length; i++) {%>
+                <% if(list[i].dropDown==="dropDown_boston" ) { %>
+                  <li class="bostonJobs list-group-item">
+                    <span class="list-group-item">
+                      <%= list[i].name %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].jobListing %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].connect %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].msg %>
+                    </span>
+                    <% if(list[i].checkBox===true) { %>
+                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
+                          aria-hidden="true"></i></span>
+                      <% } else { %>
+                        <span class="list-group-item"><i class="fa-regular fa-square check-regular"
+                            data-checkbox="false" aria-hidden="true"></i></span>
+                        <% } %>
+
+                          <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                  </li>
+                  <% } %>
+
+                    <% } %>
+            </ul>
+          </div>
+
+          <!-- container for philadelphia category -->
+          <div class="collectionContainer">
+            <h4>Philadelphia</h4>
+            <ul class="philadelphiaCollection .list-group-flush">
+              <% for(var i=0; i <list.length; i++) {%>
+                <% if(list[i].dropDown==="dropDown_philadelphia" ) { %>
+                  <li class="phillyJobs list-group-item">
+                    <<span class="list-group-item">
+                      <%= list[i].name %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].jobListing %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].connect %>
+                    </span>
+                    <span class="list-group-item">
+                      <%= list[i].msg %>
+                    </span>
+                    <% if(list[i].checkBox===true) { %>
+                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
+                          aria-hidden="true"></i></span>
+                      <% } else { %>
+                        <span class="list-group-item"><i class="fa-regular fa-square check-regular"
+                            data-checkbox="false" aria-hidden="true"></i></span>
+                        <% } %>
+                          <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                  </li>
+                  <% } %>
+
+                    <% } %>
+            </ul>
+          </div>
+
+          <!-- container for pittsburgh category -->
+
+          <div class="collectionContainer">
+            <h4>Pittsburgh</h4>
+            <ul class="pittCollection .list-group-flush">
+              <% for(var i=0; i <list.length; i++) {%>
+                <% if(list[i].dropDown==="dropDown_pittsburgh" ) { %>
+                  <li class="list-group-item">
+                    <span class="list-group-item" class="list-group-item">
+                      <%= list[i].name %>
+                    </span>
+                    <span class="list-group-item" class="list-group-item">
+                      <%= list[i].jobListing %>
+                    </span>
+                    <span class="list-group-item" class="list-group-item">
+                      <%= list[i].connect %>
+                    </span>
+                    <span class="list-group-item" class="list-group-item">
+                      <%= list[i].msg %>
+                    </span>
+
+                    <% if(list[i].checkBox===true) { %>
+                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
+                          aria-hidden="true"></i></span>
+                      <% } else { %>
+                      <span class="list-group-item"><i class="fa-regular fa-square check-regular"
+                            data-checkbox="false" aria-hidden="true"></i></span>
+                      <% } %>
+                      <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                  </li>
+                  <% } %>
+
+                <% } %>
+            </ul>
+          </div>
+
+
+
+
+
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+
+</body>
+
+</html>
