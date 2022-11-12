@@ -9,21 +9,24 @@ module.exports = function(app, passport, db) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('list').find({name: req.user.local.email}).toArray((err, result) => {
-  
+        db.collection('product').find().toArray((err, result) => {
           if (err) return console.log(err)
-          let nyc = result.filter(hash => hash.dropDown === 'dropDown_newYork')
-          let philly = result.filter(hash => hash.dropDown === 'dropDown_philadelphia')
-          let boston = result.filter(hash => hash.dropDown === 'dropDown_boston')
-          let pittsburgh = result.filter(hash => hash.dropDown === 'dropDown_pittsburgh')
-          // do it for the other cities
-          let arr = [nyc,boston,philly,pittsburgh].flat()
+          db.collection('order').find().toArray((err, orderDocs) => {
+            if (err) return console.log(err)
+            db.collection('payment').find().toArray((err, paymentDocs) => {
+              if (err) return console.log(err)
+       
+        
           res.render('profile.ejs', {
             user : req.user,
-            list: arr
+            product: result,
+            order: orderDocs,
+            payment: paymentDocs
           })
         })
-    });
+      })
+    })
+  });
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
@@ -35,40 +38,54 @@ module.exports = function(app, passport, db) {
 
 // message board routes ===============================================================
 
-    app.post('/messages', (req, res) => {
-      console.log(req.body.jobListing)
-      console.log(req.body.connect)
-      db.collection('list').insertOne(
+    app.post('/order', (req, res) => {
+      console.log(req.body.name)
+      console.log(req.body.price)
+      db.collection('order').insertOne(
         {
         name: req.body.name,
-        jobListing: req.body.jobListing, 
-        connect: req.body.connect, 
-        msg: req.body.msg, 
-        checkBox: false,
-        dropDown: req.body.dropDown
+        price: req.body.price
       },
-    (err, result) => {
+        (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile');
       });
     })
 
-    // 11/4, 1:21PM, tested logic below. 
-    // green checkbox tested and it does not return false when clicked after it returns true. (you can't uncheck)
+    app.post('/save', (req, res) => {
 
-    app.put('/messages', (req, res) => {
-      console.log(req.body)
-      db.collection('list').findOneAndUpdate(
+      db.collection('payment').insertOne(
         {
-          name: req.body.name, 
-          msg: req.body.msg,
+        fullName: req.body.fullName,
+        user: req.body.user,
+        cardNumber: req.body.cardNumber, 
+        phoneNumber: req.body.phoneNumber
+      },
+        (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        res.redirect('/profile');
+      });
+    })
+
+
+    
+
+    app.put('/update', (req, res) => {
+      console.log(req.body)
+      db.collection('payment').findOneAndUpdate(
+        {
+          fullName: req.body.fullName,
+          cardNumber: req.body.cardNumber, 
+          phoneNumber: req.body.phoneNumber,
+          user: req.body.user
         },
 
         {
-          // $set explanation
+
         $set: {
-          checkBox: !req.body.checkBox,
+          cardNumber: req.body.updatedCardNumber
         },
       }, 
       {
@@ -82,10 +99,11 @@ module.exports = function(app, passport, db) {
     )
   })
 
-    app.delete('/messages', (req, res) => {
-      db.collection('list').findOneAndDelete({
-        name: req.body.name, 
-        msg: req.body.msg}, (err, result) => {
+    app.delete('/deleteItem', (req, res) => {
+      db.collection('order').findOneAndDelete({
+        name: req.body.name,
+        price: req.body.price
+      }, (err, result) => {
         if (err) return res.send(500, err)
         console.log('deleted')
         res.send('Message deleted!')

@@ -1,240 +1,247 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Profile</title>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Pear Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@200;300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://kit.fontawesome.com/43daf91e79.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
+    <!-- LOCAL INFORMATION, class hidden -->
+    <div class="col-sm-12">
+      <div class="well">
+        <h3><span class="fa fa-user"></span> Local</h3>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="nav-header">
-        <a class="navbar-brand">Profile Page</a>
-      </div>
-        <div class="navbar-header" style="float: right">
-          <a href="/logout" class="btn btn-primary my-2 my-sm-0">Logout</a>
-        </div>
-    </nav>
-
-    <div class="row">
-
-      <!-- LOCAL INFORMATION, class hidden -->
-      <div class="col-sm-12">
-        <div class="well">
-          <h3><span class="fa fa-user"></span> Local</h3>
-
-          <% if (user.local.email) { %>
-            <p>
-              <strong>id</strong>: <%= user._id %><br>
-                <strong>email</strong>: <%= user.local.email %><br>
-                  <strong>password</strong>: <%= user.local.password %>
-            </p>
-
-            <a href="/unlink/local" class="btn btn-default">Unlink</a>
-            <% } else { %>
-              <a href="/connect/local" class="btn btn-default">Connect Local</a>
-              <% } %>
-
-        </div>
-      </div>
-
-      <div class="col-sm-12">
-          <div class="p-5 text-center bg-image" style="background-image: url('img/jobart.jpg'); height: 350px;">
-            <h3>Jobs</h3>
-          </div>
         <% if (user.local.email) { %>
-          <form class=”form-inline” class="" action="/messages" method="POST" role="form">
-            <div class="form-group">
-              <div class="input-group mb-3">
-                <span class="input-group-addon">@</span>
-                <input type="text" value="<%= user.local.email %>" name="name" class="form-control"
-                  aria-describedby="basic-addon1" required>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" placeholder="Job Listing" value="" name="jobListing" required>
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" placeholder="Connect's Name" name="connect" required>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Message" name="msg" required>
-              </div>
-              <div class="form-group">
-                <select name="dropDown" class="form-control" aria-label="Default select example" placeholder="Location">
-                  <option selected>Location</option>
-                  <option value="dropDown_newYork" name="New York">New York</option>
-                  <option value="dropDown_philadelphia" name="dropDown_philadelphia">Philadelphia</option>
-                  <option value="dropDown_boston" name="dropDown_boston">Boston</option>
-                  <option value="dropDown_pittsburgh" name="dropDown_pittsburgh">Pittsburgh</option>
-                </select>
+          <p>
+            <strong>id</strong>: <%= user._id %><br>
+              <strong>email</strong>: <%= user.local.email %><br>
+                <strong>password</strong>: <%= user.local.password %>
+          </p>
 
-
-              </div>
-              <button type="submit" class="btn btn-primary mb-2">Submit</button>
-
-            </div>
-          </form>
-    
-
-          <!-- container for new york category -->
-          <div>
-            <h4>New York</h4>
-            <ul class="newYorkCollection  .list-group-flush">
-              <% for(var i=0; i <list.length; i++) {%>
-                <% if(list[i].dropDown==="dropDown_newYork" ) { %>
-                  <li class="listofNewYorkJobs list-group-item">
-                    <span class="list-group-item">
-                      <%= list[i].name %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].jobListing %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].connect %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].msg %>
-                    </span>
-                    <% if(list[i].checkBox===true) { %>
-                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
-                          aria-hidden="true"></i></span>
-                      <% } else { %>
-                        <span class="list-group-item"><i class="fa-regular fa-square check-regular"
-                            data-checkbox="false" aria-hidden="true"></i></span>
-                        <% } %>
-
-                          <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                  </li>
-                  <% } %>
-
-                    <% } %>
-            </ul>
-          </div>
-
-          <!-- container for boston category -->
-
-          <div class="collectionContainer">
-            <h4>Boston</h4>
-            <ul class="bostonCollection .list-group-flush">
-              <% for(var i=0; i <list.length; i++) {%>
-                <% if(list[i].dropDown==="dropDown_boston" ) { %>
-                  <li class="bostonJobs list-group-item">
-                    <span class="list-group-item">
-                      <%= list[i].name %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].jobListing %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].connect %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].msg %>
-                    </span>
-                    <% if(list[i].checkBox===true) { %>
-                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
-                          aria-hidden="true"></i></span>
-                      <% } else { %>
-                        <span class="list-group-item"><i class="fa-regular fa-square check-regular"
-                            data-checkbox="false" aria-hidden="true"></i></span>
-                        <% } %>
-
-                          <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                  </li>
-                  <% } %>
-
-                    <% } %>
-            </ul>
-          </div>
-
-          <!-- container for philadelphia category -->
-          <div class="collectionContainer">
-            <h4>Philadelphia</h4>
-            <ul class="philadelphiaCollection .list-group-flush">
-              <% for(var i=0; i <list.length; i++) {%>
-                <% if(list[i].dropDown==="dropDown_philadelphia" ) { %>
-                  <li class="phillyJobs list-group-item">
-                    <<span class="list-group-item">
-                      <%= list[i].name %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].jobListing %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].connect %>
-                    </span>
-                    <span class="list-group-item">
-                      <%= list[i].msg %>
-                    </span>
-                    <% if(list[i].checkBox===true) { %>
-                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
-                          aria-hidden="true"></i></span>
-                      <% } else { %>
-                        <span class="list-group-item"><i class="fa-regular fa-square check-regular"
-                            data-checkbox="false" aria-hidden="true"></i></span>
-                        <% } %>
-                          <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                  </li>
-                  <% } %>
-
-                    <% } %>
-            </ul>
-          </div>
-
-          <!-- container for pittsburgh category -->
-
-          <div class="collectionContainer">
-            <h4>Pittsburgh</h4>
-            <ul class="pittCollection .list-group-flush">
-              <% for(var i=0; i <list.length; i++) {%>
-                <% if(list[i].dropDown==="dropDown_pittsburgh" ) { %>
-                  <li class="list-group-item">
-                    <span class="list-group-item" class="list-group-item">
-                      <%= list[i].name %>
-                    </span>
-                    <span class="list-group-item" class="list-group-item">
-                      <%= list[i].jobListing %>
-                    </span>
-                    <span class="list-group-item" class="list-group-item">
-                      <%= list[i].connect %>
-                    </span>
-                    <span class="list-group-item" class="list-group-item">
-                      <%= list[i].msg %>
-                    </span>
-
-                    <% if(list[i].checkBox===true) { %>
-                      <span class="list-group-item"><i class="fa-regular fa-square check-green" data-checkbox="true"
-                          aria-hidden="true"></i></span>
-                      <% } else { %>
-                      <span class="list-group-item"><i class="fa-regular fa-square check-regular"
-                            data-checkbox="false" aria-hidden="true"></i></span>
-                      <% } %>
-                      <span class="list-group-item"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                  </li>
-                  <% } %>
-
-                <% } %>
-            </ul>
-          </div>
-
-
-
-
+          <a href="/unlink/local" class="btn btn-default">Unlink</a>
+          <% } else { %>
+            <a href="/connect/local" class="btn btn-default">Connect Local</a>
+            <% } %>
 
       </div>
-      <% } %>
     </div>
+
+   
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand">Profile Page</a>
+        </div>
+        
+        <div class="navbar-header nav-text">
+          <a href="/logout" class="btn btn-danger logout">Logout</a>
+        </div>
+        
+        
+      
+      </nav>
+
+  
+
+      <br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-header">
+              Payment Information
+            </div>
+            <div class="card-body">
+              <% if (user.local.email) { %>
+                <form class=”form-inline” class="" action="/save" method="POST" role="form">
+                  <div class="form-group">
+                    <div class="col-6 col-sm-4">
+                      <div class="form-outline">
+                        <input type="text" class="form-control" value="<%= user.local.email %>" name="user" required>
+                        <label class="form-label" for="formUserName">User</label>
+                      </div>
+      
+                      <div class="form-outline">
+                        <input type="text" id="formFullName" class="form-control" name="fullName"  />
+                        <label class="form-label" for="formFullName">Enter Full Name</label>
+                      </div>
+               
+                      
+                      <hr class="my-4" />
+
+                      <h5 class="mb-4">Payment</h5>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="creditRadioBtn"
+                          checked />
+                        <label class="form-check-label" for="creditRadioBtn">
+                          Credit Card
+                        </label>
+                      </div>
+          
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="debitRadioBtn" />
+                        <label class="form-check-label" for="debitRadioBtn">
+                          Debit Card
+                        </label>
+                      </div>
+
+                      <hr class="my-4" />
+                      <div class="form-outline">
+                        <input type="text" id="formCardNumber" name="creditCardNumber" class="form-control" />
+                        <label class="form-label" for="formCardNumber">Credit Card Number</label>
+                      </div>
+              
+                      <div class="form-outline">
+                        <input type="number" id="formPhoneNumber" name="phoneNumber" class="form-control" required/>
+                        <label class="form-label" for="formPhoneNumber">Phone Number</label>
+                      </div>
+                      
+                      <a href="#" id="saveBtn" class="btn btn-primary">Save</a>
+    
+                    </div>
+                  </div>
+                </form>
+                <% } %>
+            </div>
+          </div>
+          <br>
+        </div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              
+              <h5 class="card-title"><i class="fa-solid fa-cart-shopping"></i> Shopping Cart</h5>
+              <p class="card-text">Purchase Phone
+              </p>
+              <form class=”form-inline” action="/order" method="POST" role="form">
+                <ul class="orderInformation list-group">
+                <% for(let i=0; i <order.length; i++) {%>
+                    <li class="list-group-item">
+                      <span class="list-group-item">
+                        <%= order[i].name %>
+                      </span>
+                      <span class="list-group-item">
+                        <%= order[i].price %>
+                      </span>
+
+                      <span class="list-group-item">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </span>
+
+                    </li>
+                <% } %>
+                </ul>
+              </form>
+              <a href="#" class="btn btn-primary">Checkout</a>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-sm-4">
+          <div class="card bg-dark text-white">
+            <div class="card-body">
+              <div class="card-header">
+                Wallet
+              </div>
+              <br>
+              <% for(var i=0; i <payment.length; i++) {%>
+              <div class="card-body">
+               <p class="card-text"><%= `${payment[i].fullName}` %></p>
+               <p class="card-text"><%= `Phone Number: ${payment[i].phoneNumber}` %></p> 
+               <p class="card-text"><%= `Card: ${payment[i].cardNumber}` %></p> 
+               <input type="text" id="edit" class="editedInput" value="" placeholder="Update Card Information" >
+               <button class="updatePaymentBtn">Update Payment Information</button>
+              </div>
+             <% } %>
+            </div>
+          </div> 
+        </div>
+
+      </div>
+      <br>
+
+
+
+      <!-- start by showing products to dom -->
+
+
+  
+
+        <section style="background-color: #eee;">
+          <div class="container py-5">
+            <div class="row">
+            <% for (const value of product) {%> 
+              <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+                <div class="card text-black">
+                  <img src="<%= value.url %>" class="card-img-top" alt="iPhone" />
+                  <div class="card-body">
+                    <div class="text-center mt-1">
+                      <h4 id="id" class="card-title name"><%= value.name %></h4>
+                      <h6 class="text-primary mb-1 pb-3 price"> <%= value.price %> </h6>
+                    </div>
+
+                    <div class="text-center">
+                      <div class="p-3 mx-n3 mb-4" style="background-color: #eff1f2;">
+                        <h5 class="mb-0">Quick Look</h5>
+                      </div>
+  
+                      <div class="d-flex flex-column mb-4">
+                        <span class="h1 mb-0"><%= value.display %>"</span>
+                        <span>HD Display</span>
+                      </div>
+  
+                      <div class="d-flex flex-column mb-4">
+                        <span class="h1 mb-0">
+                          <i class="fas fa-camera-retro"></i>
+                        </span>
+                        <ul class="list-unstyled mb-0">
+                          <li aria-hidden="true">—</li>
+                          <li>Wide</li>
+                          <li>Front Camera</li>
+                          <li aria-hidden="true">—</li>
+                        </ul>
+                      </div>
+  
+                      <div class="d-flex flex-column mb-4">
+                        <span class="h1 mb-0">1X</span>
+                        <span>Optical zoom range</span>
+                      </div>
+  
+                      <div class="p-3 mx-n3 mb-4" style="background-color: #cfd3d4;">
+                        <h5 class="mb-0">Capacity</h5>
+                      </div>
+  
+                      <div class="d-flex flex-column mb-4 lead">
+                        <span class="mb-2"><%= value.capacity %></span>
+                      </div>
+                    </div>
+  
+                    <div class="d-flex flex-row">
+                      <button type="button" id="addToCart" class="btn btn-danger flex-fill ms-1">Add To Cart</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+            </div>
+          </div>
+        </section>
   </div>
 
   <script src="main.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"></script>
 </body>
 
 </html>
